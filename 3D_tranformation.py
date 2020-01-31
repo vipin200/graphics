@@ -12,39 +12,42 @@ def print_mat(mat):
 def translation(matrix):
     tx = int(input("Enter translation length along x axis: "))
     ty = int(input("Enter translation length along y axis: "))
-
-    trans_matrix = np.eye(3)
-    trans_matrix[0, 2] = tx
-    trans_matrix[1, 2] = ty
-
+    tz = int(input("Enter translation length along z axis: "))
+    trans_matrix = np.eye(4)
+    trans_matrix[0, 3] = tx
+    trans_matrix[1, 3] = ty
+    trans_matrix[2, 3] = tz
     return trans_matrix @ matrix
 
 
 def scaling(matrix):
     ax = int(input("Enter scaling factor along x axis: "))
     ay = int(input("Enter scaling factor along y axis: "))
-    scal_matrix = np.eye(3)
+    az = int(input("Enter scaling factor along z axis: "))
+    scal_matrix = np.eye(4)
     scal_matrix[0][0] = ax
     scal_matrix[1][1] = ay
+    scal_matrix[2][2] = az
 
     return scal_matrix @ matrix
 
 
 def rotation(matrix):
     n = int(input("Enter angle of rotation ( in degrees): "))
-    print("Choose direction of rotation: ")
-    print("1.Clock-wise Rotation")
-    print("2.Anti clock-wise Rotation")
-    dir = int(input("Enter choice: "))
+    print("Choose axis of rotation: ")
+    print("1.About x-axis: ")
+    print("2.About y-axis: ")
+    print("3.About z axis: ")
+    axis = int(input("Enter choice: "))
     sin = math.sin(math.radians(n))
     cos = math.cos(math.radians(n))
-    arr = np.eye(3)
-    if dir == 2:
-        arr[0, :2] = cos, -sin
-        arr[1, :2] = sin, cos
-    else:
-        arr[0, :2] = cos, sin
-        arr[1, :2] = -sin, cos
+    arr = np.eye(4)
+    if axis == 1:
+        arr[1, 1:3] = cos, -sin
+        arr[2, 1:3] = sin, cos
+    elif axis == 2:
+        arr[0, 0] = cos, -sin
+        arr[2, :2] = sin, cos
 
     return arr  @ matrix
 
